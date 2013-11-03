@@ -1,0 +1,45 @@
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server ipv6only=on;
+
+	root /vagrant/www;
+	index index.php index.html index.htm;
+
+	# Make site accessible from http://localhost/
+	server_name localhost;
+
+	location / {
+		try_files $uri $uri/ =404;
+	}
+
+	error_page 404 /404.html;
+
+	# redirect server error pages to the static page /50x.html
+	#
+	#error_page 500 502 503 504 /50x.html;
+	#location = /50x.html {
+	#	root /usr/share/nginx/html;
+	#}
+
+	# pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+	#
+	location ~ \.php$ {
+		try_files $uri $uri/ =404;
+		fastcgi_index index.php;
+		include fastcgi_params;
+		fastcgi_pass php5-fpm-sock;
+		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+		fastcgi_intercept_errors on;
+
+		fastcgi_split_path_info ^(.+\.php)(/.+)$;
+	#	# NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
+
+	}
+
+	# deny access to .htaccess files, if Apache's document root
+	# concurs with nginx's one
+	#
+	#location ~ /\.ht {
+	#	deny all;
+	#}
+}
