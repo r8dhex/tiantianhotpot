@@ -57,7 +57,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   
   config.vm.provider :virtualbox do |vb|
     vb.name = "Tian Tian Vagrant Box"
+    vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
   end
   
   config.vm.provision :shell, :path => "vagrant-config/vagrant-bootstrap.sh"
+  config.vm.network "forwarded_port", guest: 80, host: 8888
 end
