@@ -71,6 +71,8 @@ function menu_render($params = array()) {
 	$class = isset($params['class']) ? $params['class'] : 'active';
 
 	foreach($menu as $item) {
+		echo $parent ." | " .$item->parent . " " . $item->name . " " . $item->status."<br/>";
+		
 		if($item->parent == $parent) {
 			$attr = array();
 
